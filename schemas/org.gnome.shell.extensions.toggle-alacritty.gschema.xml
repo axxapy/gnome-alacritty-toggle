@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+	<schema id="org.gnome.shell.extensions.toggle-alacritty" path="/org/gnome/shell/extensions/toggle-alacritty/">
+		<key name="toggle-key" type="as">
+			<default><![CDATA[['<Alt>Z']]]></default>
+			<summary>Toggle key</summary>
+		</key>
+	</schema>
+</schemalist>

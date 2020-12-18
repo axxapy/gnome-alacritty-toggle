@@ -1,0 +1,9 @@
+{
+  "name": "Toggle Alacritty",
+  "description": "Toggles Alacritty",
+  "uuid": "toggle-alacritty@itstime.tech",
+  "settings-schema": "org.gnome.shell.extensions.toggle-alacritty",
+  "shell-version": [
+    "3.38"
+  ]
+}
