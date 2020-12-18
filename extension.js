@@ -14,8 +14,7 @@ class Extension {
 	}
 
 	_toggleAlacritty() {
-		let win = this.cached_window;
-		if (!win || win.get_workspace()) {
+		if (!this.cached_window_actor || !this.cached_window_actor.metaWindow || !this.cached_window_actor.metaWindow.get_workspace) {
 			let windows = global.get_window_actors().filter(actor => {
 				let win = actor.metaWindow;
 				return win.get_wm_class() === 'Alacritty';
@@ -27,16 +26,14 @@ class Extension {
 				return;
 			}
 
-			this.cached_window = windows[0].metaWindow;
-			win = windows[0].metaWindow;
+			this.cached_window_actor = windows[0];
 		}
 
+		let win = this.cached_window_actor.metaWindow;
 		let focusWindow = global.display.focus_window;
 
 		// alacritty is active, hiding
 		if (win === focusWindow) {
-			//global.window_manager.completed_minimize(win)
-			//Main.wm.completed_minimize()
 			win.minimize();
 			return;
 		}
@@ -50,22 +47,24 @@ class Extension {
 	}
 
 	enable() {
-		this.cached_window = null;
+		this.cached_window_actor = null;
 		let ModeType = Shell.hasOwnProperty('ActionMode') ? Shell.ActionMode : Shell.KeyBindingMode;
-		Main.wm.addKeybinding('toggle-key', this.settings, Meta.KeyBindingFlags.NONE, ModeType.NORMAL | ModeType.OVERVIEW, () => {this._toggleAlacritty()});
+		Main.wm.addKeybinding('toggle-key', this.settings, Meta.KeyBindingFlags.NONE, ModeType.NORMAL | ModeType.OVERVIEW, this._toggleAlacritty.bind(this));
 
-		/*this._shouldAnimateActor_bkp = Main.wm._shouldAnimateActor;
+		// disable animation when hiding alacritty
+		this._shouldAnimateActor_bkp = Main.wm._shouldAnimateActor;
 		Main.wm._shouldAnimateActor = (actor, types) => {
-			//if (actor.get_wm_class() === 'Alacritty') return false;
+			if (actor.metaWindow.get_wm_class() === 'Alacritty') return false;
 			return this._shouldAnimateActor_bkp.call(Main.wm, actor, types);
-		}*/
+		}
 	}
 
 	disable() {
 		Main.wm.removeKeybinding('toggle-key');
-		this.cached_window = null;
-		/*Main.wm._shouldAnimateActor = this._shouldAnimateActor_bkp;
-		this._shouldAnimateActor_bkp = null;*/
+		this.cached_window_actor = null;
+
+		Main.wm._shouldAnimateActor = this._shouldAnimateActor_bkp;
+		this._shouldAnimateActor_bkp = null;
 	}
 }
 
