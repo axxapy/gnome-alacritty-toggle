@@ -40,8 +40,13 @@ class Extension {
 
 		// alacritty not active, activating
 		let activeWorkspace = global.workspace_manager.get_active_workspace();
+		let currentMonitor = activeWorkspace.get_display().get_current_monitor();
+		let onCurrentMonitor = win.get_monitor() === currentMonitor;
 		if (!win.located_on_workspace(activeWorkspace)) {
-			win.change_workspace_by_index(activeWorkspace.index(), true);
+			win.change_workspace(activeWorkspace);
+			onCurrentMonitor || win.move_to_monitor(currentMonitor);
+		} else if (win.minimized && !onCurrentMonitor) {
+			win.move_to_monitor(currentMonitor);
 		}
 		activeWorkspace.activate_with_focus(win, global.get_current_time());
 	}
@@ -52,10 +57,12 @@ class Extension {
 		Main.wm.addKeybinding('toggle-key', this.settings, Meta.KeyBindingFlags.NONE, ModeType.NORMAL | ModeType.OVERVIEW, this._toggleAlacritty.bind(this));
 
 		// disable animation when hiding alacritty
-		this._shouldAnimateActor_bkp = Main.wm._shouldAnimateActor;
-		Main.wm._shouldAnimateActor = (actor, types) => {
-			if (actor.metaWindow.get_wm_class() === 'Alacritty') return false;
-			return this._shouldAnimateActor_bkp.call(Main.wm, actor, types);
+		if (Main.wm._shouldAnimateActor) {
+			this._shouldAnimateActor_bkp = Main.wm._shouldAnimateActor;
+			Main.wm._shouldAnimateActor = (actor, types) => {
+				if (actor.metaWindow.get_wm_class() === 'Alacritty') return false;
+				return this._shouldAnimateActor_bkp.call(Main.wm, actor, types);
+			}
 		}
 	}
 
@@ -63,8 +70,10 @@ class Extension {
 		Main.wm.removeKeybinding('toggle-key');
 		this.cached_window_actor = null;
 
-		Main.wm._shouldAnimateActor = this._shouldAnimateActor_bkp;
-		this._shouldAnimateActor_bkp = null;
+		if (this._shouldAnimateActor_bkp) {
+			Main.wm._shouldAnimateActor = this._shouldAnimateActor_bkp;
+			this._shouldAnimateActor_bkp = null;
+		}
 	}
 }
 
