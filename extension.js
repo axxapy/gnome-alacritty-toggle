@@ -3,6 +3,7 @@
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 const Meta = imports.gi.Meta;
+const Workspace = imports.ui.workspace.Workspace;
 
 const Self = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Self.imports.convenience;
@@ -60,8 +61,17 @@ class Extension {
 		if (Main.wm._shouldAnimateActor) {
 			this._shouldAnimateActor_bkp = Main.wm._shouldAnimateActor;
 			Main.wm._shouldAnimateActor = (actor, types) => {
-				if (actor.metaWindow.get_wm_class() === 'Alacritty') return false;
+				if (actor.metaWindow && actor.metaWindow.get_wm_class() === 'Alacritty') return false;
 				return this._shouldAnimateActor_bkp.call(Main.wm, actor, types);
+			}
+		}
+
+		// hide alcacritty from workspace overview
+		if (Workspace.prototype._isOverviewWindow) {
+			this._isOverviewWindow_bkp = Workspace.prototype._isOverviewWindow;
+			Workspace.prototype._isOverviewWindow = (win) => {
+				if (win.get_wm_class && win.get_wm_class() === 'Alacritty') return false;
+				return this._isOverviewWindow_bkp.call(Workspace, win);
 			}
 		}
 	}
@@ -73,6 +83,11 @@ class Extension {
 		if (this._shouldAnimateActor_bkp) {
 			Main.wm._shouldAnimateActor = this._shouldAnimateActor_bkp;
 			this._shouldAnimateActor_bkp = null;
+		}
+
+		if (this._isOverviewWindow_bkp) {
+			Workspace.prototype._isOverviewWindow = this._isOverviewWindow_bkp;
+			this._isOverviewWindow_bkp = null;
 		}
 	}
 }
