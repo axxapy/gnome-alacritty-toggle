@@ -5,7 +5,7 @@ Simple [gnome-shell](https://wiki.gnome.org/Projects/GnomeShell) (v3.38) extensi
 
 Works under both `Wayland` and `X11`
 
-Hotkey: `Alt+Z`
+Hotkey: `Alt+z`
 
 Installation
 ------------
