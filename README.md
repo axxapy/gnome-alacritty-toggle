@@ -21,3 +21,22 @@ You can change hotkey in `extension_dir/schemas/org.gnome.shell.extensions.toggl
 $ glib-compile-schemas ./schemas/
 ```
 
+Troubleshooting
+---------------
+To test if it works, you can launch Alacritty manualy and use this command:
+```
+$ dbus-send --print-reply=literal --type=method_call --dest=org.gnome.Shell /org/gnome/Shell org.gnome.Shell.Eval string:"$(cat <<EOL
+  global.get_window_actors().filter(actor => {
+      return actor.metaWindow.get_wm_class() === 'Alacritty';
+  })
+EOL
+)"
+```
+
+it should output smth like the following:
+```
+[{"_windowType":0,"_notifyWindowTypeSignalId":57783}]
+```
+
+#### Important
+Alacritty should be executable by the following path: `/usr/bin/alacritty`

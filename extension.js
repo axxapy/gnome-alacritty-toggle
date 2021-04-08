@@ -17,8 +17,7 @@ class Extension {
 	_toggleAlacritty() {
 		if (!this.cached_window_actor || !this.cached_window_actor.metaWindow || !this.cached_window_actor.metaWindow.get_workspace) {
 			let windows = global.get_window_actors().filter(actor => {
-				let win = actor.metaWindow;
-				return win.get_wm_class() === 'Alacritty';
+				return actor.metaWindow.get_wm_class() === 'Alacritty';
 			});
 
 			// Alacritty has not been launched, launching new instance
