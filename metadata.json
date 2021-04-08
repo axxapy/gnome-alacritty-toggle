@@ -4,6 +4,6 @@
   "uuid": "toggle-alacritty@itstime.tech",
   "settings-schema": "org.gnome.shell.extensions.toggle-alacritty",
   "shell-version": [
-    "3.38"
+    "3.38", "40"
   ]
 }
