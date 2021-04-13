@@ -9,6 +9,9 @@ Hotkey: `Alt+z`
 
 Installation
 ------------
+[<img src="https://github.com/andyholmes/gnome-shell-extensions-badge/raw/master/get-it-on-ego.png" width=160px>](https://extensions.gnome.org/extension/3942/toggle-alacritty/)
+
+### or manually
 ```
 $ git clone https://github.com/axxapy/gnome-alacritty-toggle ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech
 ```
