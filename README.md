@@ -1,7 +1,7 @@
 Gnome Alacritty Toggle
 ----------------------
 
-Simple [gnome-shell](https://wiki.gnome.org/Projects/GnomeShell) (v3.38) extension to toggle [Alacritty](https://github.com/alacritty/alacritty) window.
+Simple [gnome-shell](https://wiki.gnome.org/Projects/GnomeShell) (v3.38+) extension to toggle [Alacritty](https://github.com/alacritty/alacritty) window.
 
 Works under both `Wayland` and `X11`
 
