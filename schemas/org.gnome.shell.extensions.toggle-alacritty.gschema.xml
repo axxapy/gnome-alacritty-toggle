@@ -5,5 +5,10 @@
 			<default><![CDATA[['<Alt>Z']]]></default>
 			<summary>Toggle key</summary>
 		</key>
+		<key name="hide-on-overview" type="b">
+			<default>true</default>
+			<summary>Hide on overview screen</summary>
+			<description>Hides alacritty on workspaces overview screen</description>
+		</key>
 	</schema>
 </schemalist>

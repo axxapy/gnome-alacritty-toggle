@@ -52,9 +52,16 @@ class Extension {
 	}
 
 	enable() {
-		this.cached_window_actor = null;
-		let ModeType = Shell.hasOwnProperty('ActionMode') ? Shell.ActionMode : Shell.KeyBindingMode;
-		Main.wm.addKeybinding('toggle-key', this.settings, Meta.KeyBindingFlags.NONE, ModeType.NORMAL | ModeType.OVERVIEW, this._toggleAlacritty.bind(this));
+		this.bindHotkey()
+		this.settings.connect('changed::toggle-key', () => {
+			this.bindHotkey()
+		});
+
+		// hide alcacritty from workspace overview
+		this.hideOnOverview()
+		this.settings.connect('changed::hide-on-overview', () => {
+			this.hideOnOverview()
+		});
 
 		// disable animation when hiding alacritty
 		if (Main.wm._shouldAnimateActor) {
@@ -64,14 +71,32 @@ class Extension {
 				return this._shouldAnimateActor_bkp.call(Main.wm, actor, types);
 			}
 		}
+	}
 
-		// hide alcacritty from workspace overview
-		if (Workspace.prototype._isOverviewWindow) {
-			this._isOverviewWindow_bkp = Workspace.prototype._isOverviewWindow;
-			Workspace.prototype._isOverviewWindow = (win) => {
-				if (win.get_wm_class && win.get_wm_class() === 'Alacritty') return false;
-				return this._isOverviewWindow_bkp.call(Workspace, win);
+	bindHotkey() {
+		Main.wm.removeKeybinding('toggle-key');
+		this.cached_window_actor = null;
+		let ModeType = Shell.hasOwnProperty('ActionMode') ? Shell.ActionMode : Shell.KeyBindingMode;
+		Main.wm.addKeybinding('toggle-key', this.settings, Meta.KeyBindingFlags.NONE, ModeType.NORMAL | ModeType.OVERVIEW, this._toggleAlacritty.bind(this));
+	}
+
+	hideOnOverview() {
+		if (!Workspace.prototype._isOverviewWindow) {
+			return
+		}
+
+		if (!this.settings.get_boolean('hide-on-overview')) {
+			if (this._isOverviewWindow_bkp) {
+				Workspace.prototype._isOverviewWindow = this._isOverviewWindow_bkp;
+				this._isOverviewWindow_bkp = null;
 			}
+			return
+		}
+
+		this._isOverviewWindow_bkp = Workspace.prototype._isOverviewWindow;
+		Workspace.prototype._isOverviewWindow = (win) => {
+			if (win.get_wm_class && win.get_wm_class() === 'Alacritty') return false;
+			return this._isOverviewWindow_bkp.call(Workspace, win);
 		}
 	}
 
