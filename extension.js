@@ -4,16 +4,9 @@ const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 const Meta = imports.gi.Meta;
 const Workspace = imports.ui.workspace.Workspace;
-
-const Self = imports.misc.extensionUtils.getCurrentExtension();
-const Convenience = Self.imports.convenience;
-//const config = Self.imports.config;
+const ExtensionUtils = imports.misc.extensionUtils;
 
 class Extension {
-	constructor() {
-		this.settings = Convenience.getSettings();
-	}
-
 	_toggleAlacritty() {
 		if (!this.cached_window_actor || !this.cached_window_actor.metaWindow || !this.cached_window_actor.metaWindow.get_workspace) {
 			let windows = global.get_window_actors().filter(actor => {
@@ -52,6 +45,8 @@ class Extension {
 	}
 
 	enable() {
+		this.settings = ExtensionUtils.getSettings();
+
 		this.bindHotkey()
 		this.settings.connect('changed::toggle-key', () => {
 			this.bindHotkey()
