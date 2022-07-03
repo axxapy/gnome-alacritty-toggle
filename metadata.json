@@ -5,6 +5,6 @@
   "url": "https://github.com/axxapy/gnome-alacritty-toggle",
   "settings-schema": "org.gnome.shell.extensions.toggle-alacritty",
   "shell-version": [
-    "3.38", "40", "41"
+    "3.38", "40", "41", "42"
   ]
 }
