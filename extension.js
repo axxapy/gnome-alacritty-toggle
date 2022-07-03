@@ -15,7 +15,7 @@ class Extension {
 
 			// Alacritty has not been launched, launching new instance
 			if (!windows.length) {
-				imports.misc.util.trySpawnCommandLine('/usr/bin/alacritty');
+				imports.misc.util.trySpawnCommandLine(this.settings.get_string('command'));
 				return;
 			}
 

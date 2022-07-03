@@ -10,5 +10,9 @@
 			<summary>Hide on overview screen</summary>
 			<description>Hides alacritty on workspaces overview screen</description>
 		</key>
+		<key name="command" type="s">
+			<default>'/usr/bin/alacritty'</default>
+			<summary>Set the alacritty command</summary>
+		</key>
 	</schema>
 </schemalist>
