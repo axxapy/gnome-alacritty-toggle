@@ -10,3 +10,6 @@ dist: schemas ## Prepare zip file for extensions.gnome.org
 
 schemas: ## Compile glib schemas
 	glib-compile-schemas ./schemas/
+
+test-wayland:
+	dbus-run-session -- gnome-shell --nested --wayland
