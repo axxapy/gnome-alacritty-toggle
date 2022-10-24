@@ -13,7 +13,7 @@ You can configure this behavior by changing settings through [gsettings](#config
 
 ## Requirements
 
-- Gnome `>= 3.38`, `<= 42`
+- Gnome `>= 3.38`, `<= 43`
 - Alacritty
 
 ## Installation
@@ -25,7 +25,7 @@ You can configure this behavior by changing settings through [gsettings](#config
 
 Install the extension
 ```bash
-git clone https://github.com/axxapy/gnome-alacritty-toggle ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech
+$ git clone https://github.com/axxapy/gnome-alacritty-toggle ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech
 ```
 
 On Wayland, logout and login so `gnome-extensions` picks up the newly installed extension.  
@@ -33,36 +33,36 @@ On X11, press `Alt+F2`, type `r`, and press enter to reload Gnome.
 
 Then enable the extension :
 ```bash
-gnome-extensions enable toggle-alacritty@itstime.tech
+$ gnome-extensions enable toggle-alacritty@itstime.tech
 ```
 
 ## Configuration
 
 Show alacritty's window on overview screen:
 ```bash
-gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech/schemas set org.gnome.shell.extensions.toggle-alacritty hide-on-overview false
+$ gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech/schemas set org.gnome.shell.extensions.toggle-alacritty hide-on-overview false
 ```
 
 Hide alacritty's window on overview screen (default behavior):
 ```bash
-gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech/schemas set org.gnome.shell.extensions.toggle-alacritty hide-on-overview true
+$ gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech/schemas set org.gnome.shell.extensions.toggle-alacritty hide-on-overview true
 ```
 
 Redefine hotkey
 ```bash
-gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech/schemas set org.gnome.shell.extensions.toggle-alacritty toggle-key "['<Alt>Z']"
+$ gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech/schemas set org.gnome.shell.extensions.toggle-alacritty toggle-key "['<Alt>Z']"
 ```
 
 Change alacritty command path
 ```bash
-gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech/schemas set org.gnome.shell.extensions.toggle-alacritty command "$HOME/.local/bin/alacritty"
+$ gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@itstime.tech/schemas set org.gnome.shell.extensions.toggle-alacritty command "$HOME/.local/bin/alacritty"
 ```
 
 ## Troubleshooting
 
 To test if it works, you can launch Alacritty manualy and use this command:
 ```bash
-dbus-send --print-reply=literal --type=method_call --dest=org.gnome.Shell /org/gnome/Shell org.gnome.Shell.Eval string:"$(cat <<EOL
+$ dbus-send --print-reply=literal --type=method_call --dest=org.gnome.Shell /org/gnome/Shell org.gnome.Shell.Eval string:"$(cat <<EOL
   global.get_window_actors().filter(actor => {
       return actor.metaWindow.get_wm_class() === 'Alacritty';
   })
