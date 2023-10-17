@@ -13,8 +13,9 @@ You can configure this behavior by changing settings through [gsettings](#config
 
 ## Requirements
 
-- Gnome `>= 3.38`, `<= 43`
-- Alacritty
+- Gnome `45+`: use master branch
+- Gnome `3.38..44`: use [Gnome 44 release](https://github.com/axxapy/gnome-alacritty-toggle/releases/tag/v1.44.0)
+- [Alacritty](https://github.com/alacritty/alacritty)
 
 ## Installation
 

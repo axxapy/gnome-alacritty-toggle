@@ -1,12 +1,13 @@
-/* exported init */
+`use strict`;
 
-const Main = imports.ui.main;
-const Shell = imports.gi.Shell;
-const Meta = imports.gi.Meta;
-const Workspace = imports.ui.workspace.Workspace;
-const ExtensionUtils = imports.misc.extensionUtils;
+import Shell from 'gi://Shell';
+import Meta from 'gi://Meta';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+import {Workspace} from  'resource:///org/gnome/shell/ui/workspace.js'
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-class Extension {
+export default class extends Extension {
 	_toggleAlacritty() {
 		if (!this.cached_window_actor || !this.cached_window_actor.metaWindow || !this.cached_window_actor.metaWindow.get_workspace) {
 			let windows = global.get_window_actors().filter(actor => {
@@ -15,7 +16,7 @@ class Extension {
 
 			// Alacritty has not been launched, launching new instance
 			if (!windows.length) {
-				imports.misc.util.trySpawnCommandLine(this.settings.get_string('command'));
+				Util.trySpawnCommandLine(this.settings.get_string('command'));
 				return;
 			}
 
@@ -45,7 +46,7 @@ class Extension {
 	}
 
 	enable() {
-		this.settings = ExtensionUtils.getSettings();
+		this.settings = this.getSettings();
 
 		this.bindHotkey()
 		this.settings.connect('changed::toggle-key', () => {
@@ -98,6 +99,7 @@ class Extension {
 	disable() {
 		Main.wm.removeKeybinding('toggle-key');
 		this.cached_window_actor = null;
+		this.settings = null
 
 		if (this._shouldAnimateActor_bkp) {
 			Main.wm._shouldAnimateActor = this._shouldAnimateActor_bkp;
@@ -109,8 +111,4 @@ class Extension {
 			this._isOverviewWindow_bkp = null;
 		}
 	}
-}
-
-function init() {
-	return new Extension();
 }
