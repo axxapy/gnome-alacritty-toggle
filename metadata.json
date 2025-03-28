@@ -4,5 +4,5 @@
   "uuid": "toggle-alacritty@itstime.tech",
   "url": "https://github.com/axxapy/gnome-alacritty-toggle",
   "settings-schema": "org.gnome.shell.extensions.toggle-alacritty",
-  "shell-version": ["45", "46", "47"]
+  "shell-version": ["45", "46", "47", "48"]
 }
