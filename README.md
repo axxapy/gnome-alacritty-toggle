@@ -1,3 +1,5 @@
+
+
 # Gnome Alacritty Toggle
 
 Simple [gnome-shell](https://wiki.gnome.org/Projects/GnomeShell) extension to toggle [Alacritty](https://github.com/alacritty/alacritty) window.
@@ -61,7 +63,7 @@ $ gsettings --schemadir ~/.local/share/gnome-shell/extensions/toggle-alacritty@i
 
 ## Troubleshooting
 
-To test if it works, you can launch Alacritty manualy and use this command:
+To test if it works, you can launch Alacritty manually and use this command:
 ```bash
 $ dbus-send --print-reply=literal --type=method_call --dest=org.gnome.Shell /org/gnome/Shell org.gnome.Shell.Eval string:"$(cat <<EOL
   global.get_window_actors().filter(actor => {
